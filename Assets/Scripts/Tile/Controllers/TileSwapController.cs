@@ -29,9 +29,7 @@ namespace Hexagon.Tile.Swap
                     int nextNeighborIndex = j + 1;
                     if (nextNeighborIndex >= 3) nextNeighborIndex = 0;
 
-                    Vector2 nextNeighborPosition = TileNeighborSelector._selectedTiles[nextNeighborIndex].transform.position;
-                    TileNeighborSelector._selectedTiles[j].transform.DOMoveX(nextNeighborPosition.x, X_SWAP_DURATION).SetEase(Ease.OutQuad);
-                    TileNeighborSelector._selectedTiles[j].transform.DOMoveY(nextNeighborPosition.y, Y_SWAP_DURATION).SetEase(Ease.InQuad);
+                    MoveTiles(j, nextNeighborIndex);
                 }
             }
 
@@ -51,13 +49,31 @@ namespace Hexagon.Tile.Swap
                     int nextNeighborIndex = j - 1;
                     if (nextNeighborIndex <= -1) nextNeighborIndex = 2;
 
-                    Vector2 nextNeighborPosition = TileNeighborSelector._selectedTiles[nextNeighborIndex].transform.position;
-                    TileNeighborSelector._selectedTiles[j].transform.DOMoveX(nextNeighborPosition.x, X_SWAP_DURATION).SetEase(Ease.OutQuad);
-                    TileNeighborSelector._selectedTiles[j].transform.DOMoveY(nextNeighborPosition.y, Y_SWAP_DURATION).SetEase(Ease.InQuad);
+                    MoveTiles(j, nextNeighborIndex);
                 }
             }
 
             IsSwapping = false;
+        }
+
+        private static void MoveTiles(int currentTileIndex, int nextNeighborIndex)
+        {
+            Transform currentTile = TileNeighborSelector._selectedTiles[currentTileIndex].transform;
+            Transform nextNeighbor = TileNeighborSelector._selectedTiles[nextNeighborIndex].transform;
+            Vector2 nextNeighborPosition = nextNeighbor.position;
+
+            Sequence swapSquence = DOTween.Sequence();
+            swapSquence.Join(currentTile.DOMoveX(nextNeighborPosition.x, X_SWAP_DURATION).SetEase(Ease.OutQuad));
+            swapSquence.Join(currentTile.DOMoveY(nextNeighborPosition.y, Y_SWAP_DURATION).SetEase(Ease.InQuad));
+
+            var currentTileProperty = currentTile.GetComponent<AbstractTile>();
+            var neighborTileProperty = nextNeighbor.GetComponent<AbstractTile>();
+
+            Vector2 tempCoordinate = neighborTileProperty.Coordinates;
+
+            swapSquence.OnComplete(() =>
+            currentTileProperty.SetProperties(neighborTileProperty.Coordinates)).OnComplete(() => 
+            currentTileProperty.SetProperties(tempCoordinate));
         }
     }
 }

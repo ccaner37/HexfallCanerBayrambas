@@ -11,6 +11,7 @@ namespace Hexagon.Tile
         public virtual void SetProperties(Vector2 coordinates)
         {
             Coordinates = coordinates;
+            transform.name = $"({coordinates.x}), ({coordinates.y})";
         }
     }
 }

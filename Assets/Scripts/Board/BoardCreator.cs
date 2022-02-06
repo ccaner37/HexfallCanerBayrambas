@@ -59,7 +59,6 @@ namespace Hexagon.Board
 
 			var tile = spawnedTile.GetComponent<AbstractTile>();
 			tile.SetProperties(coordinates);
-			tile.name = $"({x}), ({y})";
 
 			TileMap.AllTilesMap.Add(coordinates, tile);
 		}
