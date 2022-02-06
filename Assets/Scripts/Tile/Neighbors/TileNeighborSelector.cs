@@ -36,7 +36,7 @@ namespace Hexagon.Tile.Neighbor
 
         private static void SelectEastNeighbors(Vector2 selectedTileCoordinate)
         {
-            var parity = (int)selectedTileCoordinate.x & 1;
+            int parity = (int)selectedTileCoordinate.x & 1; // This is for even or row. Variable will be 0 if selectedTileCoordinate.x is even, returns 1 for odd (Bitwise operator)
             var gel = lists[parity][dict[TileNeighborDirections.SE]];
             var gel2 = lists[parity][dict[TileNeighborDirections.NE]];
             _selectedTiles.Add(TileMap.AllTilesMap[selectedTileCoordinate + gel]);
