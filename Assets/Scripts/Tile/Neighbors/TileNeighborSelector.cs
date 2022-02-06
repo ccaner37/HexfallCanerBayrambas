@@ -7,11 +7,10 @@ namespace Hexagon.Tile.Neighbor
 {
     public static class TileNeighborSelector
     {
-        private static List<AbstractTile> _selectedTiles = new List<AbstractTile>();
+        public static List<AbstractTile> _selectedTiles = new List<AbstractTile>();
 
         public static void SelectNeighbors(Vector2 selectedTileCoordinate, CornerDirections direction)
         {
-            // ResetCOlorDebug();
             _selectedTiles.Clear();
             _selectedTiles.Add(TileMap.AllTilesMap[selectedTileCoordinate]);
             switch (direction)
@@ -36,25 +35,13 @@ namespace Hexagon.Tile.Neighbor
 
         private static void SelectEastNeighbors(Vector2 selectedTileCoordinate)
         {
-            int parity = (int)selectedTileCoordinate.x & 1; // This is for even or row. Variable will be 0 if selectedTileCoordinate.x is even, returns 1 for odd (Bitwise operator)
+            // This is for even or row. Variable will be 0 if selectedTileCoordinate.x is even, returns 1 for odd (Bitwise operator)
+            int parity = (int)selectedTileCoordinate.x & 1; 
+
             var gel = lists[parity][dict[TileNeighborDirections.SE]];
             var gel2 = lists[parity][dict[TileNeighborDirections.NE]];
             _selectedTiles.Add(TileMap.AllTilesMap[selectedTileCoordinate + gel]);
             _selectedTiles.Add(TileMap.AllTilesMap[selectedTileCoordinate + gel2]);
-
-            for (int i = 0; i < _selectedTiles.Count; i++)
-            {
-                _selectedTiles[i].transform.GetComponent<SpriteRenderer>().color = Color.red;
-            }
-        }
-
-        private static void ResetCOlorDebug()
-        {
-            for (int i = 0; i < _selectedTiles.Count; i++)
-            {
-                if (_selectedTiles[i].transform == null) return;
-                _selectedTiles[i].transform.GetComponent<SpriteRenderer>().color = Color.white;
-            }
         }
 
         static Dictionary<TileNeighborDirections, int> dict = new Dictionary<TileNeighborDirections, int>()
