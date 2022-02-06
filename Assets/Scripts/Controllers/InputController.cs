@@ -1,7 +1,5 @@
 using Hexagon.Interfaces;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Hexagon.Tile.Swap;
 using UnityEngine;
 
 namespace Hexagon.Controllers
@@ -12,16 +10,30 @@ namespace Hexagon.Controllers
 
         private IInteractable _interactable;
 
+        private Vector3 _firstInputPosition;
+
+        private float _swipeMoveDistanceFactor = 5f;
+
         private bool _isInteractable => _raycastHit.transform.TryGetComponent<IInteractable>(out _interactable);
+        private bool _didPlayerSwipeClockwise => Input.mousePosition.y > _firstInputPosition.y ? true : false;
+        private bool _inputReleased => Input.GetMouseButtonUp(0);
 
         private void Update()
         {
-            CheckInput();
+            if (Input.GetMouseButtonDown(0))
+            {
+                _firstInputPosition = Input.mousePosition;
+            }
+
+            CheckInputForSelecting();
+            CheckInputForSwiping();
         }
 
-        private void CheckInput()
+        private void CheckInputForSelecting()
         {
-            if (!Input.GetMouseButtonDown(0)) return;
+            if (!_inputReleased) return;
+            if (DidPlayerSwipe()) return;
+            if (TileSwapController.IsSwapping) return;
 
             Ray rayPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
             _raycastHit = Physics2D.GetRayIntersection(rayPoint);
@@ -29,6 +41,30 @@ namespace Hexagon.Controllers
             {
                 _interactable.ClickInteract(_raycastHit.point);
             }
+        }
+
+        private void CheckInputForSwiping()
+        {
+            if (!_inputReleased) return;
+            if (!DidPlayerSwipe()) return;
+
+            if (_didPlayerSwipeClockwise)
+            {
+                StartCoroutine(TileSwapController.SwapClockwiseCoroutine());
+            }
+            else
+            {
+                StartCoroutine(TileSwapController.SwapCounterClockwiseCoroutine());
+            }
+
+            _firstInputPosition = Vector3.zero;
+        }
+
+        private bool DidPlayerSwipe()
+        {
+            float inputDistance = Vector3.Distance(_firstInputPosition, Input.mousePosition);
+            bool result = inputDistance > _swipeMoveDistanceFactor ? true : false;
+            return result;
         }
     }
 }

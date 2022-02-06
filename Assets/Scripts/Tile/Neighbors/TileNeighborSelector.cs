@@ -5,7 +5,7 @@ using Hexagon.Tile.Direction;
 
 namespace Hexagon.Tile.Neighbor
 {
-    public static class TileNeighborSelector
+    public class TileNeighborSelector
     {
         private static Dictionary<TileNeighborDirections, int> _neighborDirectionDictionary = new Dictionary<TileNeighborDirections, int>()
         {
