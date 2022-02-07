@@ -31,40 +31,42 @@ namespace Hexagon.Tile.Neighbor
 
         private static Vector2[][] _neighborComboList = new Vector2[][] { _evenCols, _rowCols };
 
-        public static List<AbstractTile> _selectedTiles = new List<AbstractTile>();
+        public static List<AbstractTile> SelectedSwapTiles = new List<AbstractTile>();
 
-        public static void SelectNeighbors(Vector2 selectedTileCoordinate, CornerDirections direction)
+        public static List<AbstractTile> SelectedNeighborTiles = new List<AbstractTile>();
+
+        public static void SelectNeighborsIntoList(Vector2 selectedTileCoordinate, CornerDirections direction, List<AbstractTile> list)
         {
             // This is for even or row. Variable will be 0 if selectedTileCoordinate.x is even, returns 1 for odd (Bitwise operator)
             int parity = (int)selectedTileCoordinate.x & 1;
 
-            _selectedTiles.Clear();
-            _selectedTiles.Add(TileMap.AllTilesMap[selectedTileCoordinate]);
+            list.Clear();
+            list.Add(TileMap.AllTilesMap[selectedTileCoordinate]);
 
             switch (direction)
             {
                 case CornerDirections.E:
-                    SelectNeighbors(selectedTileCoordinate, parity, 
+                    SelectNeighbors(selectedTileCoordinate, parity, list,
                     TileNeighborDirections.SE, TileNeighborDirections.NE);
                     break;
                 case CornerDirections.W:
-                    SelectNeighbors(selectedTileCoordinate, parity,
+                    SelectNeighbors(selectedTileCoordinate, parity, list,
                     TileNeighborDirections.SW, TileNeighborDirections.NW);
                     break;
                 case CornerDirections.NE:
-                    SelectNeighbors(selectedTileCoordinate, parity,
+                    SelectNeighbors(selectedTileCoordinate, parity, list,
                     TileNeighborDirections.N, TileNeighborDirections.NE);
                     break;
                 case CornerDirections.NW:
-                    SelectNeighbors(selectedTileCoordinate, parity,
+                    SelectNeighbors(selectedTileCoordinate, parity, list,
                     TileNeighborDirections.N, TileNeighborDirections.NW);
                     break;
                 case CornerDirections.SE:
-                    SelectNeighbors(selectedTileCoordinate, parity,
+                    SelectNeighbors(selectedTileCoordinate, parity, list,
                     TileNeighborDirections.S, TileNeighborDirections.SE);
                     break;
                 case CornerDirections.SW:
-                    SelectNeighbors(selectedTileCoordinate, parity,
+                    SelectNeighbors(selectedTileCoordinate, parity, list,
                     TileNeighborDirections.S, TileNeighborDirections.SW);
                     break;
                 default:
@@ -72,13 +74,13 @@ namespace Hexagon.Tile.Neighbor
             }
         }
 
-        private static void SelectNeighbors(Vector2 selectedTileCoordinate, int parity, TileNeighborDirections firstDirection, TileNeighborDirections secondDirection)
+        private static void SelectNeighbors(Vector2 selectedTileCoordinate, int parity, List<AbstractTile> list, TileNeighborDirections firstDirection, TileNeighborDirections secondDirection)
         {
             var firstNeighbor = _neighborComboList[parity][_neighborDirectionDictionary[firstDirection]];
             var secondNeighbor = _neighborComboList[parity][_neighborDirectionDictionary[secondDirection]];
 
-            _selectedTiles.Add(TileMap.AllTilesMap[selectedTileCoordinate + firstNeighbor]);
-            _selectedTiles.Add(TileMap.AllTilesMap[selectedTileCoordinate + secondNeighbor]);
+            list.Add(TileMap.AllTilesMap[selectedTileCoordinate + firstNeighbor]);
+            list.Add(TileMap.AllTilesMap[selectedTileCoordinate + secondNeighbor]);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Hexagon.Tile.Direction
         {
             SetDirectionPositions(selectedTilePosition);
             SelectTileCorner(inputPosition);
-            TileNeighborSelector.SelectNeighbors(selectedTileCoordinate, _selectedDirectionAndPosition.Direction);
+            TileNeighborSelector.SelectNeighborsIntoList(selectedTileCoordinate, _selectedDirectionAndPosition.Direction, TileNeighborSelector.SelectedSwapTiles);
         }
 
         private void SetDirectionPositions(Vector2 tilePosition)
