@@ -15,7 +15,7 @@ MonoBehaviour:
   Width: 8
   Height: 9
   OddRowYOffset: 0.48
-  OddRowXOffset: -0.2
+  OddRowXOffset: 0
   VerticalDistance: 0.74
   HorizontalDistance: 0.62
   TileColors:
@@ -25,5 +25,4 @@ MonoBehaviour:
   - {r: 0.20784311, g: 0.7699093, b: 0.8980392, a: 1}
   - {r: 0.20784311, g: 0.8980392, b: 0.3332175, a: 1}
   - {r: 0.5026169, g: 0.17021184, b: 0.8018868, a: 1}
-  - {r: 0.58609605, g: 0.6603774, b: 0.28969383, a: 1}
-  - {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
+  - {r: 0.3443396, g: 1, b: 0.86848396, a: 1}

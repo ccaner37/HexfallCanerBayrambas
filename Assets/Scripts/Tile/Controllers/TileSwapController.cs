@@ -6,7 +6,7 @@ using Hexagon.Tile.Neighbor;
 
 namespace Hexagon.Tile.Swap
 {
-    public class TileSwapController
+    public class TileSwapController : MonoBehaviour
     {
         private const float SWAP_DURATION = 0.2f;
         private const float X_SWAP_DURATION = SWAP_DURATION * 0.9f;
@@ -16,11 +16,14 @@ namespace Hexagon.Tile.Swap
 
         public static bool IsSwapping;
 
-        public static Sequence _swapSequence;
+        private static Sequence _swapSequence;
 
-        public static bool stopp;
+        private void OnEnable() => TileNeighborChecker.OnTileMatch += StopSwapping;
+        private void OnDisable() => TileNeighborChecker.OnTileMatch += StopSwapping;
 
-        public static IEnumerator SwapClockwiseCoroutine()
+
+
+        public IEnumerator SwapClockwiseCoroutine()
         {
             if (IsSwapping) yield break;
             IsSwapping = true;
@@ -40,7 +43,7 @@ namespace Hexagon.Tile.Swap
             IsSwapping = false;
         }
 
-        public static IEnumerator SwapCounterClockwiseCoroutine()
+        public IEnumerator SwapCounterClockwiseCoroutine()
         {
             if (IsSwapping) yield break;
             IsSwapping = true;
@@ -60,16 +63,14 @@ namespace Hexagon.Tile.Swap
             IsSwapping = false;
         }
 
-        private static void MoveTiles(int currentTileIndex, int nextNeighborIndex)
+        private void MoveTiles(int currentTileIndex, int nextNeighborIndex)
         {
-            if (stopp) return;
-
             Transform currentTile = TileNeighborSelector.SelectedSwapTiles[currentTileIndex].transform;
             Transform nextNeighbor = TileNeighborSelector.SelectedSwapTiles[nextNeighborIndex].transform;
             Vector2 nextNeighborPosition = nextNeighbor.position;
 
             _swapSequence = DOTween.Sequence();
-            _swapSequence.Join(currentTile.DOMoveX(nextNeighborPosition.x, X_SWAP_DURATION).SetEase(Ease.OutQuad));
+            _swapSequence.Append(currentTile.DOMoveX(nextNeighborPosition.x, X_SWAP_DURATION).SetEase(Ease.OutQuad));
             _swapSequence.Join(currentTile.DOMoveY(nextNeighborPosition.y, Y_SWAP_DURATION).SetEase(Ease.InQuad));
 
             var currentTileProperty = currentTile.GetComponent<AbstractTile>();
@@ -78,13 +79,25 @@ namespace Hexagon.Tile.Swap
             Vector2 tempCoordinate = neighborTileProperty.Coordinates;
 
             _swapSequence.OnComplete(() =>
-            currentTileProperty.SetProperties(neighborTileProperty.Coordinates)).OnComplete(() =>
+            {
+                currentTileProperty.SetProperties(neighborTileProperty.Coordinates);
+            }).OnComplete(() =>
             {
                 currentTileProperty.SetProperties(tempCoordinate);
-                TileMap.AllTilesMap[currentTileProperty.Coordinates] = currentTileProperty;
-                TileNeighborChecker.CheckNeighbors(currentTileProperty.Coordinates);
-               // Debug.Log(currentTileProperty.Coordinates);
+                StartCoroutine(TileNeighborChecker.CheckNeighbors(currentTileProperty.Coordinates));
             });
+        }
+
+        private void StopSwapping()
+        {
+            DOTween.CompleteAll();
+            StartCoroutine(EnableSwap());
+        }
+
+        private IEnumerator EnableSwap()
+        {
+            yield return new WaitForSeconds(0.4f);
+            IsSwapping = false;
         }
     }
 }

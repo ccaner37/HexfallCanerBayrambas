@@ -1,4 +1,5 @@
 using Hexagon.Interfaces;
+using Hexagon.Tile.Neighbor;
 using Hexagon.Tile.Swap;
 using UnityEngine;
 
@@ -10,13 +11,20 @@ namespace Hexagon.Controllers
 
         private IInteractable _interactable;
 
+        private TileSwapController _tileSwapController;
+
         private Vector3 _firstInputPosition;
 
-        private float _swipeMoveDistanceFactor = 5f;
+        private float _swipeMoveDistanceFactor = 10f;
 
         private bool _isInteractable => _raycastHit.transform.TryGetComponent<IInteractable>(out _interactable);
         private bool _didPlayerSwipeClockwise => Input.mousePosition.y > _firstInputPosition.y ? true : false;
         private bool _inputReleased => Input.GetMouseButtonUp(0);
+
+        private void OnEnable() => TileNeighborChecker.OnTileMatch += StopSwapping;
+        private void OnDisable() => TileNeighborChecker.OnTileMatch += StopSwapping;
+
+        private void Start() => _tileSwapController = gameObject.GetComponent<TileSwapController>();
 
         private void Update()
         {
@@ -50,11 +58,11 @@ namespace Hexagon.Controllers
 
             if (_didPlayerSwipeClockwise)
             {
-                StartCoroutine(TileSwapController.SwapClockwiseCoroutine());
+                StartCoroutine(_tileSwapController.SwapClockwiseCoroutine());
             }
             else
             {
-                StartCoroutine(TileSwapController.SwapCounterClockwiseCoroutine());
+                StartCoroutine(_tileSwapController.SwapCounterClockwiseCoroutine());
             }
 
             _firstInputPosition = Vector3.zero;
@@ -65,6 +73,11 @@ namespace Hexagon.Controllers
             float inputDistance = Vector3.Distance(_firstInputPosition, Input.mousePosition);
             bool result = inputDistance > _swipeMoveDistanceFactor ? true : false;
             return result;
+        }
+
+        private void StopSwapping()
+        {
+            StopAllCoroutines();
         }
     }
 }

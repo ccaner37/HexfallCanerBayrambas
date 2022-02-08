@@ -8,13 +8,11 @@ namespace Hexagon.Board
 {
 	public class BoardCreator : MonoBehaviour
 	{
-		[SerializeField]
-		private GameObject _hexPrefab;
+		public GameObject HexPrefab;
 
-		[SerializeField]
-		private ScriptableBoard _boardSettings;
+		public ScriptableBoard BoardSettings;
 
-		private Vector3 _boardPosition = new Vector3(-2.01f, 2.36f, 0);
+		private Vector3 _boardPosition = new Vector3(-2.11f, 2.36f, 0);
 
 		private void Start()
 		{
@@ -26,25 +24,25 @@ namespace Hexagon.Board
 
 		private void InitializeBoard()
 		{
-			for (int x = 0; x < _boardSettings.Width; x++)
+			for (int x = 0; x < BoardSettings.Width; x++)
 			{
-				for (int y = 0; y < _boardSettings.Height; y++)
+				for (int y = 0; y < BoardSettings.Height; y++)
 				{
 					float xPos = x;
 					float yPos = y;
 
 					if (IsOddRow(x))
 					{
-						xPos += _boardSettings.OddRowXOffset;
-						yPos += _boardSettings.OddRowYOffset;
+						xPos += BoardSettings.OddRowXOffset;
+						yPos += BoardSettings.OddRowYOffset;
 					}
 					else if (IsEvenRow(x))
 					{
-						xPos += _boardSettings.OddRowXOffset;
+						xPos += BoardSettings.OddRowXOffset;
 					}
 
-					Vector2 tilePosition = new Vector2(xPos * _boardSettings.HorizontalDistance, yPos * -_boardSettings.VerticalDistance);
-					GameObject tile = Instantiate(_hexPrefab, tilePosition, Quaternion.identity, transform);
+					Vector2 tilePosition = new Vector2(xPos * BoardSettings.HorizontalDistance, yPos * -BoardSettings.VerticalDistance);
+					GameObject tile = Instantiate(HexPrefab, tilePosition, Quaternion.identity, transform);
 
 					SetTileCoordinates(tile, x, y);
 					SetTileColor(tile);
@@ -53,20 +51,18 @@ namespace Hexagon.Board
 			FixBoardPosition();
 		}
 
-		private void SetTileCoordinates(GameObject spawnedTile, int x, int y)
+		public virtual void SetTileCoordinates(GameObject spawnedTile, int x, int y)
         {
 			Vector2 coordinates = new Vector2(x, y);
 
 			var tile = spawnedTile.GetComponent<AbstractTile>();
 			tile.SetProperties(coordinates);
-
-			TileMap.AllTilesMap.Add(coordinates, tile);
 		}
 
-		private void SetTileColor(GameObject tile)
+		public virtual void SetTileColor(GameObject tile)
         {
-			int randomNumber = Random.Range(0, _boardSettings.TileColors.Length);
-			Color randomColor = _boardSettings.TileColors[randomNumber];
+			int randomNumber = Random.Range(0, BoardSettings.TileColors.Length);
+			Color randomColor = BoardSettings.TileColors[randomNumber];
 
 			tile.GetComponent<SpriteRenderer>().color = randomColor;
         }

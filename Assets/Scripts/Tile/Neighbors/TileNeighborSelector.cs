@@ -33,25 +33,26 @@ namespace Hexagon.Tile.Neighbor
 
         public static List<AbstractTile> SelectedSwapTiles = new List<AbstractTile>();
 
-        public static List<AbstractTile> SelectedNeighborTiles = new List<AbstractTile>();
-
         public static void SelectNeighborsIntoList(Vector2 selectedTileCoordinate, CornerDirections direction, List<AbstractTile> list)
         {
             // This is for even or row. Variable will be 0 if selectedTileCoordinate.x is even, returns 1 for odd (Bitwise operator)
             int parity = (int)selectedTileCoordinate.x & 1;
 
             list.Clear();
-            list.Add(TileMap.AllTilesMap[selectedTileCoordinate]);
+
+            AbstractTile tile;
+            TileMap.AllTilesMap.TryGetValue(selectedTileCoordinate, out tile);
+            list.Add(tile);
 
             switch (direction)
             {
                 case CornerDirections.E:
                     SelectNeighbors(selectedTileCoordinate, parity, list,
-                    TileNeighborDirections.SE, TileNeighborDirections.NE);
+                    TileNeighborDirections.NE, TileNeighborDirections.SE);
                     break;
                 case CornerDirections.W:
                     SelectNeighbors(selectedTileCoordinate, parity, list,
-                    TileNeighborDirections.SW, TileNeighborDirections.NW);
+                    TileNeighborDirections.NW, TileNeighborDirections.SW);
                     break;
                 case CornerDirections.NE:
                     SelectNeighbors(selectedTileCoordinate, parity, list,
@@ -79,8 +80,13 @@ namespace Hexagon.Tile.Neighbor
             var firstNeighbor = _neighborComboList[parity][_neighborDirectionDictionary[firstDirection]];
             var secondNeighbor = _neighborComboList[parity][_neighborDirectionDictionary[secondDirection]];
 
-            list.Add(TileMap.AllTilesMap[selectedTileCoordinate + firstNeighbor]);
-            list.Add(TileMap.AllTilesMap[selectedTileCoordinate + secondNeighbor]);
+            AbstractTile first;
+            TileMap.AllTilesMap.TryGetValue(selectedTileCoordinate + firstNeighbor, out first);
+            list.Add(first);
+
+            AbstractTile second;
+            TileMap.AllTilesMap.TryGetValue(selectedTileCoordinate + secondNeighbor, out second);
+            list.Add(second);
         }
     }
 }
