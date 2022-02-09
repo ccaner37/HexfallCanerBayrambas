@@ -22,7 +22,7 @@ namespace Hexagon.Controllers
         private bool _inputReleased => Input.GetMouseButtonUp(0);
 
         private void OnEnable() => TileNeighborChecker.OnTileMatch += StopSwapping;
-        private void OnDisable() => TileNeighborChecker.OnTileMatch += StopSwapping;
+        private void OnDisable() => TileNeighborChecker.OnTileMatch -= StopSwapping;
 
         private void Start() => _tileSwapController = gameObject.GetComponent<TileSwapController>();
 
@@ -55,6 +55,7 @@ namespace Hexagon.Controllers
         {
             if (!_inputReleased) return;
             if (!DidPlayerSwipe()) return;
+            if (TileSwapController.IsSwapping) return;
 
             if (_didPlayerSwipeClockwise)
             {

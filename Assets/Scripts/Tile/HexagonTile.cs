@@ -37,7 +37,8 @@ namespace Hexagon.Tile
 
         public override void ExplodeTile()
         {
-            if (gameObject) Destroy(gameObject);
+            if (!gameObject) return; 
+            Destroy(gameObject);
             OnTileExplode(Coordinates);
             TileMover.Instance.MoveAllTilesInSameRow(Coordinates);
         }

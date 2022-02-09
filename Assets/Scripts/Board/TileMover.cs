@@ -26,7 +26,7 @@ namespace Hexagon.Board
         {
             for (int i = 0; i < _board.BoardSettings.Height - 1; i++)
             {
-                yield return new WaitForEndOfFrame();
+                yield return null;
 
                 Vector2 currentTileCoordinate = new Vector2(explodedTileCoordinate.x, i);
                 AbstractTile currentTile;

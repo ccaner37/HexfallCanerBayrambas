@@ -13,17 +13,19 @@ namespace Hexagon.UI
 
         private void OnEnable()
         {
-            GameManager.OnScoreChanged += SetTex;
+            GameManager.OnScoreChanged += UpdateScoreText;
         }
 
         private void OnDisable()
         {
-            GameManager.OnScoreChanged -= SetTex;
+            GameManager.OnScoreChanged -= UpdateScoreText;
         }
 
-        public void SetTex()
+        public void UpdateScoreText()
         {
             _scoreText.text = $"Score: {GameManager.Instance.TotalScore}";
         }
+
+        public void RestartButton() => GameManager.Instance.RestartScene();
     }
 }

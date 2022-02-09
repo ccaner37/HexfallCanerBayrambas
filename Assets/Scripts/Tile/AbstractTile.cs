@@ -10,7 +10,7 @@ namespace Hexagon.Tile
 
         public int Score = 5;
 
-        protected const float _moveDuration = 0.1f;
+        protected const float _moveDuration = 0.05f;
 
         public virtual void SetProperties(Vector2 coordinates)
         {

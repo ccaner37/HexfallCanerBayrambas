@@ -19,7 +19,7 @@ namespace Hexagon.Tile.Swap
         private static Sequence _swapSequence;
 
         private void OnEnable() => TileNeighborChecker.OnTileMatch += StopSwapping;
-        private void OnDisable() => TileNeighborChecker.OnTileMatch += StopSwapping;
+        private void OnDisable() => TileNeighborChecker.OnTileMatch -= StopSwapping;
 
 
 
@@ -96,7 +96,13 @@ namespace Hexagon.Tile.Swap
 
         private IEnumerator EnableSwap()
         {
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.5f);
+
+            if (IsSwapping)
+            {
+                Debug.Log("SWAPPED");
+            }
+
             IsSwapping = false;
         }
     }

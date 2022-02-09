@@ -1,7 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEditor.Compilation;
 
 namespace Hexagon.Manager
 {
@@ -26,6 +26,12 @@ namespace Hexagon.Manager
                 _totalScore = value;
                 OnScoreChanged();
             }
+        }
+
+        public void RestartScene()
+        {
+            int currentScene = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentScene);
         }
     }
 }
