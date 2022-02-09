@@ -12,7 +12,7 @@ namespace Hexagon.Board
 
 		public ScriptableBoard BoardSettings;
 
-		private Vector3 _boardPosition = new Vector3(-2.11f, 2.36f, 0);
+		private Vector3 _boardPosition = new Vector3(-2.11f, 2.8f, 0);
 
 		private void Start()
 		{

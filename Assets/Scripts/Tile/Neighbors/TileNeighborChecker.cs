@@ -1,10 +1,8 @@
-using Hexagon.Tile.Swap;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using System.Linq;
+using Hexagon.Manager;
 
 namespace Hexagon.Tile.Neighbor
 {
@@ -13,6 +11,8 @@ namespace Hexagon.Tile.Neighbor
         public static Action OnTileMatch;
 
         private const float _waitDuration = 0.05f;
+
+        private static int explodedTilesTotalScore = 0;
 
         public static IEnumerator CheckNeighbors(Vector2 tileCoordinate)
         {
@@ -35,15 +35,18 @@ namespace Hexagon.Tile.Neighbor
                     neighborList[1].Coordinates != neighborList[2].Coordinates &&
                     neighborList[0].Coordinates != neighborList[2].Coordinates;
 
+                
                 if (isColorsSame && isCoordinatesRight)
                 {
                     OnTileMatch?.Invoke();
                     for (int i = 0; i < neighborList.Count; i++)
                     {
                         yield return new WaitForSeconds(_waitDuration);
+                        explodedTilesTotalScore += neighborList[i].Score;
                         neighborList[i].ExplodeTile();
                     }
                 }
+                GiveScore();
             }
         }
 
@@ -65,6 +68,12 @@ namespace Hexagon.Tile.Neighbor
             if (neighborList[2].Coordinates == null) return false;
 
             return true;
+        }
+
+        private static void GiveScore()
+        {
+            GameManager.Instance.TotalScore += explodedTilesTotalScore;
+            explodedTilesTotalScore = 0;
         }
     }
 }

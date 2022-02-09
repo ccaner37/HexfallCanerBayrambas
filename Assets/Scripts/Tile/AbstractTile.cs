@@ -8,6 +8,8 @@ namespace Hexagon.Tile
     {
         public Vector2 Coordinates { get; private set; }
 
+        public int Score = 5;
+
         protected const float _moveDuration = 0.1f;
 
         public virtual void SetProperties(Vector2 coordinates)

@@ -28,8 +28,10 @@ namespace Hexagon.Board
             _waitTime += 0.5f;
             yield return new WaitForSeconds(_waitTime);
 
-            GameObject tile = Instantiate(_board.HexPrefab, new Vector2(0, 3), Quaternion.identity, _board.transform);
+            GameObject tile = Instantiate(_board.HexPrefab, new Vector2(0, 6), Quaternion.identity, _board.transform);
 
+            Vector2 position = TileCoordinatePositionHelper.GetLocalPosition(explodedTileCoordinate);
+            tile.transform.localPosition = new Vector2(position.x, 5);
             _board.SetTileCoordinates(tile, (int)explodedTileCoordinate.x, 0);
             _board.SetTileColor(tile);
 
