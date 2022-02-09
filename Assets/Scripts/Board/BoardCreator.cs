@@ -9,6 +9,7 @@ namespace Hexagon.Board
 	public class BoardCreator : MonoBehaviour
 	{
 		public GameObject HexPrefab;
+		public GameObject BombPrefab;
 
 		public ScriptableBoard BoardSettings;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Hexagon.Tile.Neighbor;
+using Hexagon.Manager;
 
 namespace Hexagon.Tile.Swap
 {
@@ -100,7 +101,7 @@ namespace Hexagon.Tile.Swap
 
             if (IsSwapping)
             {
-                Debug.Log("SWAPPED");
+                GameManager.Instance.MovesCount++;
             }
 
             IsSwapping = false;

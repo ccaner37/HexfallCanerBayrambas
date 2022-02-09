@@ -18,6 +18,7 @@ MonoBehaviour:
   OddRowXOffset: 0
   VerticalDistance: 0.74
   HorizontalDistance: 0.62
+  BombSpawningScore: 100
   TileColors:
   - {r: 0.8962264, g: 0.1986917, b: 0.1986917, a: 1}
   - {r: 0.82202804, g: 0.246707, b: 0.8301887, a: 1}
