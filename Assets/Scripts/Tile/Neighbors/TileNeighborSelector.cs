@@ -11,7 +11,7 @@ namespace Hexagon.Tile.Neighbor
         {
             {TileNeighborDirections.SE, 0 },
             {TileNeighborDirections.NE, 1 },
-            {TileNeighborDirections.N, 2 },
+            {TileNeighborDirections.N, 2 },  // Numbers presented here are based on _evenCols and _rowCols arrays order
             {TileNeighborDirections.NW, 3 },
             {TileNeighborDirections.SW, 4 },
             {TileNeighborDirections.S, 5 },

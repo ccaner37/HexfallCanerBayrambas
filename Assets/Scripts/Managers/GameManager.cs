@@ -1,10 +1,10 @@
 using System;
-using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Hexagon.Managers
 {
-    public class GameManager
+    public class GameManager : MonoBehaviour
     {
         public static Action OnScoreChanged;
         public static Action OnMovesCountChanged;
@@ -37,10 +37,19 @@ namespace Hexagon.Managers
             }
         }
 
+        private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+        private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+
         public static void RestartScene()
         {
             int currentScene = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene(currentScene);
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            _totalScore = 0;
+            _movesCount = 0;
         }
     }
 }

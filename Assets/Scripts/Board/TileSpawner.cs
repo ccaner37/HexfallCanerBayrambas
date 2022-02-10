@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using Hexagon.Tile;
 using Hexagon.Tile.Neighbor;
 using Hexagon.Managers;
@@ -61,11 +60,11 @@ namespace Hexagon.Board
         {
             if (ShouldSpawnBomb())
             {
-                return Instantiate(_board.BombPrefab, new Vector2(0, 6), Quaternion.identity, _board.transform);
+                return Instantiate(_board.BoardSettings.BombPrefab, new Vector2(0, 6), Quaternion.identity, _board.transform);
             }
             else
             {
-                return Instantiate(_board.HexPrefab, new Vector2(0, 6), Quaternion.identity, _board.transform);
+                return Instantiate(_board.BoardSettings.HexPrefab, new Vector2(0, 6), Quaternion.identity, _board.transform);
             }
         }
 

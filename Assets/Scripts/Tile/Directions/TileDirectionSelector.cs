@@ -30,6 +30,8 @@ namespace Hexagon.Tile.Direction
 
         private void HandleTileInteract(Vector2 selectedTilePosition, Vector2 inputPosition, Vector2 selectedTileCoordinate)
         {
+            // We handle input here. Calculate which corner is selected by player, with input position.
+
             SetDirectionPositions(selectedTilePosition);
             SelectTileCorner(inputPosition);
             TileNeighborSelector.SelectNeighborsIntoList(selectedTileCoordinate, _selectedDirectionAndPosition.Direction, TileNeighborSelector.SelectedSwapTiles);

@@ -12,7 +12,7 @@ namespace Hexagon.Board
 
         private void Start() => _board = gameObject.GetComponent<BoardCreator>();
 
-        public static Vector2 GetLocalPosition(Vector2 tileCoordinate)
+        public static Vector2 GetLocalPosition(Vector2 tileCoordinate) // Only returns local position for "Board" GameObject
         {
             // This is for even or row. Variable will be 0 if selectedTileCoordinate.x is even, returns 1 for odd (Bitwise operator)
             int parity = (int)tileCoordinate.x & 1;

@@ -16,6 +16,9 @@ namespace Hexagon.ScriptableObjects
 
         public int BombSpawningScore = 200;
 
+        public GameObject HexPrefab;
+        public GameObject BombPrefab;
+
         public Color[] TileColors;
     }
 }

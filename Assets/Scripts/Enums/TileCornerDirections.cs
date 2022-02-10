@@ -1,6 +1,6 @@
 namespace Hexagon.Enums
 {
-    public enum CornerDirections
+    public enum CornerDirections // Corner directions used for proccessing input
     {
         E, W, NE, NW, SE, SW
     }

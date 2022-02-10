@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using Hexagon.Tile;
 using Hexagon.ScriptableObjects;
 
@@ -7,17 +6,11 @@ namespace Hexagon.Board
 {
 	public class BoardCreator : MonoBehaviour
 	{
-		public GameObject HexPrefab;
-		public GameObject BombPrefab;
-
 		public ScriptableBoard BoardSettings;
 
 		private Vector3 _boardPosition = new Vector3(-2.11f, 2.8f, 0);
 
-		private void Start()
-		{
-			InitializeBoard();
-		}
+		private void Start() => InitializeBoard();
 
 		private bool IsOddRow(int x) => x % 2 == 1;
 		private bool IsEvenRow(int x) => x % 2 == 0;
@@ -42,7 +35,7 @@ namespace Hexagon.Board
 					}
 
 					Vector2 tilePosition = new Vector2(xPos * BoardSettings.HorizontalDistance, yPos * -BoardSettings.VerticalDistance);
-					GameObject tile = Instantiate(HexPrefab, tilePosition, Quaternion.identity, transform);
+					GameObject tile = Instantiate(BoardSettings.HexPrefab, tilePosition, Quaternion.identity, transform);
 
 					SetTileCoordinates(tile, x, y);
 					SetTileColor(tile);
@@ -51,7 +44,7 @@ namespace Hexagon.Board
 			FixBoardPosition();
 		}
 
-		public virtual void SetTileCoordinates(GameObject spawnedTile, int x, int y)
+		public void SetTileCoordinates(GameObject spawnedTile, int x, int y)
         {
 			Vector2 coordinates = new Vector2(x, y);
 
@@ -59,7 +52,7 @@ namespace Hexagon.Board
 			tile.SetProperties(coordinates);
 		}
 
-		public virtual void SetTileColor(GameObject tile)
+		public void SetTileColor(GameObject tile)
         {
 			int randomNumber = Random.Range(0, BoardSettings.TileColors.Length);
 			Color randomColor = BoardSettings.TileColors[randomNumber];

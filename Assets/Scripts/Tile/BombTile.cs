@@ -13,15 +13,9 @@ namespace Hexagon.Tile.Bomb
         [SerializeField]
         private Text _movesCountText;
 
-        private void OnEnable()
-        {
-            GameManager.OnMovesCountChanged += CheckMoves;
-        }
+        private void OnEnable() => GameManager.OnMovesCountChanged += CheckMoves;
 
-        private void OnDisable()
-        {
-            GameManager.OnMovesCountChanged -= CheckMoves;
-        }
+        private void OnDisable() => GameManager.OnMovesCountChanged -= CheckMoves;
 
         private void CheckMoves()
         {

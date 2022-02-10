@@ -18,7 +18,7 @@ namespace Hexagon.Board
             StartCoroutine(TriggerExplodedColumnTilesCoroutine(explodedTileCoordinate));
         }
 
-        // Triggers tiles for check down coordinate, if tile's down is empty then it'll move.
+        // Triggers exploded column's tiles for check down coordinate, if tile's down is empty then it'll move.
         private IEnumerator TriggerExplodedColumnTilesCoroutine(Vector2 explodedTileCoordinate)
         {
             for (int i = 0; i < _board.BoardSettings.Height - 1; i++)

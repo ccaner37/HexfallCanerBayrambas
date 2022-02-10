@@ -66,7 +66,7 @@ namespace Hexagon.Tile
             OnBoardChanged(Coordinates);
         }
 
-        private void MoveTileToCoordinatePosition()
+        protected virtual void MoveTileToCoordinatePosition()
         {
             transform.DOLocalMove(TileCoordinatePositionHelper.GetLocalPosition(Coordinates), _moveDuration);
             CheckDownCoordinate();
@@ -94,7 +94,7 @@ namespace Hexagon.Tile
             OnBoardChanged(Coordinates);
         }
 
-        private void DoShakeEffect()
+        protected virtual void DoShakeEffect()
         {
             if (_isShaking) return;
             _isShaking = true;
