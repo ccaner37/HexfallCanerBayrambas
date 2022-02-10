@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Hexagon.Manager;
+using Hexagon.Managers;
+using Hexagon.Enums;
 
 namespace Hexagon.Tile.Neighbor
 {
@@ -10,11 +11,11 @@ namespace Hexagon.Tile.Neighbor
     {
         public static Action OnTileMatch;
 
-        private const float _waitDuration = 0.05f;
+        private const float _explodeWaitDuration = 0.1f;
 
         private static int explodedTilesTotalScore = 0;
 
-        public static IEnumerator CheckNeighbors(Vector2 tileCoordinate)
+        public static IEnumerator CheckNeighborsCoroutine(Vector2 tileCoordinate)
         {
             var allCornerDirections = CornerDirections.GetValues(typeof(CornerDirections));
 
@@ -41,8 +42,9 @@ namespace Hexagon.Tile.Neighbor
                     OnTileMatch?.Invoke();
                     for (int i = 0; i < neighborList.Count; i++)
                     {
-                        yield return new WaitForSeconds(_waitDuration);
+                        yield return new WaitForSeconds(_explodeWaitDuration);
                         explodedTilesTotalScore += neighborList[i].Score;
+                        if (neighborList[i] == null) continue;
                         neighborList[i].ExplodeTile();
                     }
                 }
@@ -72,7 +74,7 @@ namespace Hexagon.Tile.Neighbor
 
         private static void GiveScore()
         {
-            GameManager.Instance.TotalScore += explodedTilesTotalScore;
+            GameManager.TotalScore += explodedTilesTotalScore;
             explodedTilesTotalScore = 0;
         }
     }

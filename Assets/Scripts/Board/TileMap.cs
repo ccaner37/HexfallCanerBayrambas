@@ -1,8 +1,8 @@
-using System.Collections;
+using Hexagon.Tile;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Hexagon.Tile
+namespace Hexagon.Board
 {
     public class TileMap
     {

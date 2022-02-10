@@ -14,7 +14,7 @@ namespace Hexagon.ScriptableObjects
         public float VerticalDistance = 0.74f;
         public float HorizontalDistance = 0.62f;
 
-        public int BombSpawningScore = 100;
+        public int BombSpawningScore = 200;
 
         public Color[] TileColors;
     }

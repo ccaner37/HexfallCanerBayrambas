@@ -1,4 +1,4 @@
-namespace Hexagon.Tile
+namespace Hexagon.Enums
 {
     public enum TileNeighborDirections
     {

@@ -1,6 +1,4 @@
-using Hexagon.Manager;
-using System.Collections;
-using System.Collections.Generic;
+using Hexagon.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,14 +23,14 @@ namespace Hexagon.UI
 
         public void UpdateScoreText()
         {
-            _scoreText.text = $"Score: {GameManager.Instance.TotalScore}";
+            _scoreText.text = $"Score: {GameManager.TotalScore}";
         }
 
         public void UpdateMovesCountText()
         {
-            _movesCountText.text = GameManager.Instance.MovesCount.ToString();
+            _movesCountText.text = GameManager.MovesCount.ToString();
         }
 
-        public void RestartButton() => GameManager.Instance.RestartScene();
+        public void RestartButton() => GameManager.RestartScene();
     }
 }

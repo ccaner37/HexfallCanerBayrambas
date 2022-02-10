@@ -2,7 +2,7 @@ using Hexagon.Tile;
 using System.Collections;
 using UnityEngine;
 using Hexagon.Tile.Neighbor;
-using Hexagon.Manager;
+using Hexagon.Managers;
 
 namespace Hexagon.Board
 {
@@ -10,7 +10,7 @@ namespace Hexagon.Board
     {
         private BoardCreator _board;
 
-        private float _waitTime = 0.5f;
+        private float _spawnWaitTime = 0.2f;
 
         private int _nextBombSpawnScore;
 
@@ -30,8 +30,8 @@ namespace Hexagon.Board
 
         private IEnumerator SpawnNewTileCoroutine(Vector2 explodedTileCoordinate)
         {
-            _waitTime += 0.5f;
-            yield return new WaitForSeconds(_waitTime);
+            _spawnWaitTime += 0.2f;
+            yield return new WaitForSeconds(_spawnWaitTime);
 
             GameObject tile = SpawnTile();
 
@@ -42,9 +42,9 @@ namespace Hexagon.Board
 
             CheckAllTilesNeighbor();
 
-            if (_waitTime >= 2f)
+            if (_spawnWaitTime >= 1f)
             {
-                _waitTime = 0.5f;
+                _spawnWaitTime = 0.2f;
             }
         }
 
@@ -52,7 +52,7 @@ namespace Hexagon.Board
         {
             foreach (var item in TileMap.AllTilesMap)
             {
-                StartCoroutine(TileNeighborChecker.CheckNeighbors(item.Key));
+                StartCoroutine(TileNeighborChecker.CheckNeighborsCoroutine(item.Key));
             }
         }
 
@@ -70,7 +70,7 @@ namespace Hexagon.Board
 
         private bool ShouldSpawnBomb()
         {
-            if (GameManager.Instance.TotalScore > _nextBombSpawnScore)
+            if (GameManager.TotalScore > _nextBombSpawnScore)
             {
                 _nextBombSpawnScore += _board.BoardSettings.BombSpawningScore;
                 return true;

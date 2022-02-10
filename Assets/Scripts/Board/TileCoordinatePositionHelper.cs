@@ -1,21 +1,14 @@
-using Hexagon.ScriptableObjects;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Hexagon.Board
 {
     public class TileCoordinatePositionHelper : MonoBehaviour
     {
-    //    public static TileCoordinatePositionHelper Instance { get; private set; }
-
         private static bool _isEvenRow(int parity) => parity == 0;
 
         private const float ODD_ROW_Y_DIFFERENCE = -0.3552f;
 
         private static BoardCreator _board;
-
-       // private void Awake() => Instance = this;
 
         private void Start() => _board = gameObject.GetComponent<BoardCreator>();
 

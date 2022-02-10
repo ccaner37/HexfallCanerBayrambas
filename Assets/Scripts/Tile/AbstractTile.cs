@@ -1,9 +1,7 @@
+using System;
+using UnityEngine;
 using DG.Tweening;
 using Hexagon.Board;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Hexagon.Tile
 {
@@ -18,6 +16,8 @@ namespace Hexagon.Tile
         public static Action<Vector2, Vector2, Vector2> OnTileInteract;
 
         public static Action<Vector2> OnTileExplode;
+
+        public static Action<Vector2> OnBoardChanged;
 
         private bool _isTileInCorrectPosition => (Vector2)transform.localPosition == TileCoordinatePositionHelper.GetLocalPosition(Coordinates);
 
@@ -34,7 +34,8 @@ namespace Hexagon.Tile
             Coordinates = coordinates;
 
             // Add to dictionary map
-            if (TileMap.AllTilesMap.ContainsKey(coordinates))
+            bool isInDictionary = TileMap.AllTilesMap.ContainsKey(coordinates);
+            if (isInDictionary)
             {
                 TileMap.AllTilesMap[coordinates] = this;
             }
@@ -53,10 +54,10 @@ namespace Hexagon.Tile
 
         public virtual void ExplodeTile() 
         {
-            if (!gameObject) return;
+            if (gameObject == null) return;
             Destroy(gameObject);
             OnTileExplode(Coordinates);
-            TileMover.Instance.MoveAllTilesInSameRow(Coordinates);
+            OnBoardChanged(Coordinates);
         }
 
         private void MoveTileToCoordinatePosition()
@@ -78,13 +79,16 @@ namespace Hexagon.Tile
 
         public virtual void MoveToDownCoordinate(Vector2 downTileCoordinate)
         {
+            Tweener tween;
             Vector2 downTilePosition = TileCoordinatePositionHelper.GetLocalPosition(downTileCoordinate);
-            transform.DOLocalMove(downTilePosition, _moveDuration).OnComplete(() =>
+            transform.DOLocalMove(downTilePosition, _moveDuration).OnComplete(() => 
             {
-                TileMap.AllTilesMap.Remove(Coordinates);
-                SetProperties(downTileCoordinate);
-                TileMover.Instance.MoveAllTilesInSameRow(Coordinates);
+                transform.DOShakeScale(0.2f, 0.02f, 1, 1);
             });
+
+            TileMap.AllTilesMap.Remove(Coordinates);
+            SetProperties(downTileCoordinate);
+            OnBoardChanged(Coordinates);
         }
     }
 }

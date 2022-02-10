@@ -1,13 +1,12 @@
-using DG.Tweening;
-using Hexagon.Manager;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using Hexagon.Interfaces;
+using Hexagon.Managers;
 
 namespace Hexagon.Tile.Bomb
 {
-    public class BombTile : AbstractTile
+    public class BombTile : AbstractTile, IInteractable
     {
         private int _movesRemaining = 6;
 
@@ -30,9 +29,25 @@ namespace Hexagon.Tile.Bomb
             _movesCountText.text = _movesRemaining.ToString();
             if(_movesRemaining <= 0)
             {
-                transform.DOShakePosition(2f, 1, 10, 90);
-                transform.DOScale(transform.localScale * 5, 2f).OnComplete(() => GameManager.Instance.RestartScene());
+                ExplodeBomb();
             }
+        }
+
+        private void ExplodeBomb()
+        {
+            float duration = 2f;
+            float strength = 1f;
+            int vibrato = 10;
+            float randomness = 90f;
+
+            Vector2 scale = transform.localScale * 3f;
+            Vector3 position = transform.position + -Vector3.forward;
+
+            transform.position = position;
+
+            transform.DOShakePosition(duration, strength, vibrato, randomness, false, false);
+            transform.DOScale(scale, duration).OnComplete(() => 
+            GameManager.RestartScene());
         }
     }
 }

@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Hexagon.Tile
+namespace Hexagon.Enums
 {
     public enum CornerDirections
     {

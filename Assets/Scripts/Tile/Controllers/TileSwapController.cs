@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Hexagon.Tile.Neighbor;
-using Hexagon.Manager;
+using Hexagon.Managers;
+using System.Linq;
 
 namespace Hexagon.Tile.Swap
 {
@@ -12,6 +13,7 @@ namespace Hexagon.Tile.Swap
         private const float SWAP_DURATION = 0.2f;
         private const float X_SWAP_DURATION = SWAP_DURATION * 0.9f;
         private const float Y_SWAP_DURATION = SWAP_DURATION * 0.8f;
+        private const float SWAP_COOLDOWN = 0.6f;
 
         private static int _swapCount = 3;
 
@@ -21,8 +23,6 @@ namespace Hexagon.Tile.Swap
 
         private void OnEnable() => TileNeighborChecker.OnTileMatch += StopSwapping;
         private void OnDisable() => TileNeighborChecker.OnTileMatch -= StopSwapping;
-
-
 
         public IEnumerator SwapClockwiseCoroutine()
         {
@@ -66,6 +66,8 @@ namespace Hexagon.Tile.Swap
 
         private void MoveTiles(int currentTileIndex, int nextNeighborIndex)
         {
+            if (IsNextNeighborNull(currentTileIndex, nextNeighborIndex)) return;
+
             Transform currentTile = TileNeighborSelector.SelectedSwapTiles[currentTileIndex].transform;
             Transform nextNeighbor = TileNeighborSelector.SelectedSwapTiles[nextNeighborIndex].transform;
             Vector2 nextNeighborPosition = nextNeighbor.position;
@@ -85,26 +87,33 @@ namespace Hexagon.Tile.Swap
             }).OnComplete(() =>
             {
                 currentTileProperty.SetProperties(tempCoordinate);
-                StartCoroutine(TileNeighborChecker.CheckNeighbors(currentTileProperty.Coordinates));
+                StartCoroutine(TileNeighborChecker.CheckNeighborsCoroutine(currentTileProperty.Coordinates));
             });
         }
 
         private void StopSwapping()
         {
             DOTween.CompleteAll();
-            StartCoroutine(EnableSwap());
+            StartCoroutine(EnableSwapCoroutine());
         }
 
-        private IEnumerator EnableSwap()
+        private IEnumerator EnableSwapCoroutine()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(SWAP_COOLDOWN);
 
             if (IsSwapping)
             {
-                GameManager.Instance.MovesCount++;
+                GameManager.MovesCount++;
             }
 
             IsSwapping = false;
+        }
+
+        private bool IsNextNeighborNull(int currentTileIndex, int nextNeighborIndex)
+        {
+            var result = TileNeighborSelector.SelectedSwapTiles.ElementAt(currentTileIndex) == null ||
+                         TileNeighborSelector.SelectedSwapTiles.ElementAt(nextNeighborIndex) == null;
+            return result;
         }
     }
 }

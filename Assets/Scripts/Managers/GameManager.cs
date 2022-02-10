@@ -1,19 +1,16 @@
 using System;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-using UnityEditor.Compilation;
 
-namespace Hexagon.Manager
+namespace Hexagon.Managers
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager
     {
         public static Action OnScoreChanged;
         public static Action OnMovesCountChanged;
 
-        public static GameManager Instance;
-
-        private int _totalScore;
-        public int TotalScore
+        private static int _totalScore;
+        public static int TotalScore
         {
             get
             {
@@ -26,8 +23,8 @@ namespace Hexagon.Manager
             }
         }
 
-        private int _movesCount;
-        public int MovesCount
+        private static int _movesCount;
+        public static int MovesCount
         {
             get
             {
@@ -40,9 +37,7 @@ namespace Hexagon.Manager
             }
         }
 
-        private void Awake() => Instance = this;
-
-        public void RestartScene()
+        public static void RestartScene()
         {
             int currentScene = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene(currentScene);

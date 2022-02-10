@@ -1,7 +1,5 @@
+using Hexagon.Enums;
 using Hexagon.Tile.Neighbor;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Hexagon.Tile.Direction
