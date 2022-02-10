@@ -66,7 +66,7 @@ namespace Hexagon.Tile.Swap
 
         private void MoveTiles(int currentTileIndex, int nextNeighborIndex)
         {
-            if (IsNextNeighborNull(currentTileIndex, nextNeighborIndex)) return;
+            if (IsNeighborsDontExist()) return;
 
             Transform currentTile = TileNeighborSelector.SelectedSwapTiles[currentTileIndex].transform;
             Transform nextNeighbor = TileNeighborSelector.SelectedSwapTiles[nextNeighborIndex].transform;
@@ -94,10 +94,10 @@ namespace Hexagon.Tile.Swap
         private void StopSwapping()
         {
             DOTween.CompleteAll();
-            StartCoroutine(EnableSwapCoroutine());
+            StartCoroutine(EnableSwappingCoroutine());
         }
 
-        private IEnumerator EnableSwapCoroutine()
+        private IEnumerator EnableSwappingCoroutine()
         {
             yield return new WaitForSeconds(SWAP_COOLDOWN);
 
@@ -106,13 +106,15 @@ namespace Hexagon.Tile.Swap
                 GameManager.MovesCount++;
             }
 
+            TileNeighborSelector.ClearSelectedTilesList(TileNeighborSelector.SelectedSwapTiles);
             IsSwapping = false;
         }
 
-        private bool IsNextNeighborNull(int currentTileIndex, int nextNeighborIndex)
+        private bool IsNeighborsDontExist()
         {
-            var result = TileNeighborSelector.SelectedSwapTiles.ElementAt(currentTileIndex) == null ||
-                         TileNeighborSelector.SelectedSwapTiles.ElementAt(nextNeighborIndex) == null;
+            var result = TileNeighborSelector.SelectedSwapTiles.ElementAt(0) == null ||
+                         TileNeighborSelector.SelectedSwapTiles.ElementAt(1) == null ||
+                         TileNeighborSelector.SelectedSwapTiles.ElementAt(2) == null;
             return result;
         }
     }

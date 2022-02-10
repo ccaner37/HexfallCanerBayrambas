@@ -11,15 +11,22 @@ namespace Hexagon.Tile
 
         public int Score = 5;
 
-        protected const float _moveDuration = 0.05f;
-
         public static Action<Vector2, Vector2, Vector2> OnTileInteract;
 
         public static Action<Vector2> OnTileExplode;
 
         public static Action<Vector2> OnBoardChanged;
 
-        private bool _isTileInCorrectPosition => (Vector2)transform.localPosition == TileCoordinatePositionHelper.GetLocalPosition(Coordinates);
+        protected const float _moveDuration = 0.05f;
+
+        protected bool _isTileInCorrectPosition => (Vector2)transform.localPosition == TileCoordinatePositionHelper.GetLocalPosition(Coordinates);
+
+        //DoTween Effect Variables
+        protected bool _isShaking;
+        protected float _shakeDuration = 0.2f;
+        protected float _shakeStrength = 0.02f;
+        protected int _shakeVibrato = 1;
+        protected int _shakeRandomness = 5;
 
         private void Start()
         {
@@ -54,7 +61,6 @@ namespace Hexagon.Tile
 
         public virtual void ExplodeTile() 
         {
-            if (gameObject == null) return;
             Destroy(gameObject);
             OnTileExplode(Coordinates);
             OnBoardChanged(Coordinates);
@@ -79,16 +85,22 @@ namespace Hexagon.Tile
 
         public virtual void MoveToDownCoordinate(Vector2 downTileCoordinate)
         {
-            Tweener tween;
             Vector2 downTilePosition = TileCoordinatePositionHelper.GetLocalPosition(downTileCoordinate);
-            transform.DOLocalMove(downTilePosition, _moveDuration).OnComplete(() => 
-            {
-                transform.DOShakeScale(0.2f, 0.02f, 1, 1);
-            });
+            transform.DOLocalMove(downTilePosition, _moveDuration)
+                .OnComplete(() =>DoShakeEffect());
 
             TileMap.AllTilesMap.Remove(Coordinates);
             SetProperties(downTileCoordinate);
             OnBoardChanged(Coordinates);
+        }
+
+        private void DoShakeEffect()
+        {
+            if (_isShaking) return;
+            _isShaking = true;
+
+            transform.DOShakeScale(_shakeDuration, _shakeStrength, _shakeVibrato, _shakeRandomness)
+                .OnComplete(() => _isShaking = false);
         }
     }
 }

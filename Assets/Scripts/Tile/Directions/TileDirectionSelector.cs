@@ -23,8 +23,8 @@ namespace Hexagon.Tile.Direction
 
         private TileDirectionSpriteController _tileDirectionSpriteController;
 
-        private void OnEnable() => HexagonTile.OnTileInteract += HandleTileInteract;
-        private void OnDisable() => HexagonTile.OnTileInteract -= HandleTileInteract;
+        private void OnEnable() => AbstractTile.OnTileInteract += HandleTileInteract;
+        private void OnDisable() => AbstractTile.OnTileInteract -= HandleTileInteract;
 
         private void Start() => _tileDirectionSpriteController = GetComponent<TileDirectionSpriteController>();
 

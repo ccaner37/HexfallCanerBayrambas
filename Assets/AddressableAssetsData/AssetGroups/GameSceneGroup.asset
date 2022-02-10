@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: GameSceneGroup
+  m_EditorClassIdentifier: 
+  m_GroupName: GameSceneGroup
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 2777be776c45550499ab41234caa5a14
+  m_SerializeEntries:
+  - m_GUID: b3b67dd6f681e9c47800293a0471bfb5
+    m_Address: Assets/Prefabs/Hexagon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 4390382645554710955, guid: b3b67dd6f681e9c47800293a0471bfb5, type: 3}
+    m_TargetAsset: {fileID: 4390382645554710955, guid: b3b67dd6f681e9c47800293a0471bfb5, type: 3}
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5b402ddfc8d2c664fb52507be3732826, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: b18a24e097f2d8c49b5435c5f65ccb35, type: 2}
+    - {fileID: 11400000, guid: d2a63ce810d3f4d43be6262273aefe5f, type: 2}

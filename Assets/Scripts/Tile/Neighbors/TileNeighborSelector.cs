@@ -88,5 +88,10 @@ namespace Hexagon.Tile.Neighbor
             TileMap.AllTilesMap.TryGetValue(selectedTileCoordinate + secondNeighbor, out second);
             list.Add(second);
         }
+
+        public static void ClearSelectedTilesList(List<AbstractTile> list)
+        {
+            list.Clear();
+        }
     }
 }

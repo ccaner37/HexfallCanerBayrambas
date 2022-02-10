@@ -40,11 +40,12 @@ namespace Hexagon.Tile.Neighbor
                 if (isColorsSame && isCoordinatesRight)
                 {
                     OnTileMatch?.Invoke();
-                    for (int i = 0; i < neighborList.Count; i++)
+                    for (int i = 0; i < neighborList.Count; i++) // Explode matched tiles & count score
                     {
                         yield return new WaitForSeconds(_explodeWaitDuration);
-                        explodedTilesTotalScore += neighborList[i].Score;
                         if (neighborList[i] == null) continue;
+
+                        explodedTilesTotalScore += neighborList[i].Score;
                         neighborList[i].ExplodeTile();
                     }
                 }
