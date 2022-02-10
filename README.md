@@ -1,4 +1,11 @@
 # Hexfall
-Trello https://trello.com/b/LOtvt2G5/hex </br>
-Google Drive .apk file - xx </br>
+Google Drive .apk file: https://drive.google.com/file/d/1BhWWfEu7Bwqcxdi0VrJQW_aITREONdJJ/view?usp=sharing </br>
+Trello: https://trello.com/b/LOtvt2G5/hex </br>
 Made in 7 days </br>
+
+Used Assets: </br>
+DOTween </br>
+
+Gameplay Video </br>
+https://youtu.be/GJdMggKrKnU <br />
+[![1](http://img.youtube.com/vi/GJdMggKrKnU/0.jpg)](https://youtu.be/GJdMggKrKnU "1")
